@@ -1,7 +1,9 @@
 # Yellowclass Project
 ## - By Prakhar Kaushik RA1911003010504
 
-## PLugin used
+State management by Provider package
+
+## PLugin  used
 
   - [x]   provider: ^6.0.3
   - [x]   video_player: ^2.4.0

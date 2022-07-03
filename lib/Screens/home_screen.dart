@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
+import 'package:yelloclass/Widgets/bottom_nav.dart';
 import 'package:yelloclass/Widgets/custom_sliver_appbar.dart';
 import 'package:provider/provider.dart';
 import '../Provider/video_provider.dart';
@@ -29,12 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final IsInViewPortCondition condition = inViewPortCondition ??
         (double deltaTop, double deltaBottom, double vpHeight) {
-          return deltaTop < (0.35 * vpHeight) &&
+          return deltaTop < (0.25 * vpHeight) &&
               deltaBottom > (0.35 * vpHeight);
         };
     print("build happening");
     var provider = Provider.of<VideoProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.yellow[200],
+      bottomNavigationBar: bottomNav(),
       body: InViewNotifierCustomScrollView(
         initialInViewIds: ['1'],
         isInViewPortCondition: condition,
@@ -46,7 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return VideoCard(video: provider.videos[index]);
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 10),
+                      child: VideoCard(video: provider.videos[index]));
                 },
                 childCount: provider.videos.length,
               ),

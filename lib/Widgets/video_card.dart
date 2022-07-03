@@ -100,106 +100,115 @@ class _VideoCardState extends State<VideoCard> {
           isTapped = false;
           _controller!.pause();
         }
-        return GestureDetector(
-          onDoubleTap: () {
-            // isPlaying = !isPlaying;
-            // playPause(isPlaying);
-          },
-          onTap: () {
-            onTapVideoInit();
-            setState(() {
-              isTapped = true;
-            });
-          },
-          onLongPress: () {
-            playVideoScreen(widget.video.videoUrl);
-          },
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: widget.hasPadding ? 12.0 : 0,
-                    ),
-                    child: isTapped
-                        ? miniVideoPlayer()
-                        : Image.network(
-                            widget.video.coverPicture,
-                            height: 220.0,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  Positioned(
-                    bottom: 8.0,
-                    right: widget.hasPadding ? 20.0 : 8.0,
-                    child: Container(
-                      padding: const EdgeInsets.all(4.0),
-                      color: Colors.black,
-                      child: Text(
-                        widget.video.id,
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption!
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        return Card(
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: GestureDetector(
+            // onDoubleTap: () {
+            //   setState(() {
+            //     isTapped = false;
+            //     _controller!.pause();
+            //   });
+            // },
+            // onTap: () {
+            //   onTapVideoInit();
+            //   setState(() {
+            //     isTapped = true;
+            //   });
+            // },
+            onLongPress: () {
+              playVideoScreen(widget.video.videoUrl);
+            },
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    GestureDetector(
-                      onTap: () => print('Navigate to profile'),
-                      child: CircleAvatar(
-                        foregroundImage:
-                            NetworkImage(widget.video.coverPicture),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: widget.hasPadding ? 12.0 : 0,
                       ),
+                      child: isTapped
+                          ? miniVideoPlayer()
+                          : Image.network(
+                              widget.video.coverPicture,
+                              height: 220.0,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                     ),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.video.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontSize: 15.0),
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              '${widget.video.id} • ${widget.video.id}  • 2 months ago}',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14.0),
-                            ),
-                          ),
-                        ],
+                    Positioned(
+                      bottom: 8.0,
+                      right: widget.hasPadding ? 20.0 : 8.0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4.0),
+                        color: Colors.black,
+                        child: Text(
+                          widget.video.id,
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(color: Colors.white),
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(Icons.more_vert, size: 20.0),
                     ),
                   ],
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () => print('Profile Icon tapped'),
+                        child: CircleAvatar(
+                          foregroundImage:
+                              NetworkImage(widget.video.coverPicture),
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.video.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(fontSize: 15.0),
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                'Id : ${widget.video.id} • Class : ${widget.video.id}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(fontSize: 14.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                          onTap: () {},
+                          child: isTapped
+                              ? const Icon(Icons.pause, size: 20.0)
+                              : Icon(Icons.play_arrow, size: 20.0)),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

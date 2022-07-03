@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inview_notifier_list/inview_notifier_list.dart';
 import 'package:yelloclass/Widgets/custom_sliver_appbar.dart';
 import 'package:provider/provider.dart';
 import '../Provider/video_provider.dart';
@@ -10,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController? scrollController;
+  IsInViewPortCondition? inViewPortCondition;
   @override
   void initState() {
     triggerLoadinga();
@@ -24,10 +27,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final IsInViewPortCondition condition = inViewPortCondition ??
+        (double deltaTop, double deltaBottom, double vpHeight) {
+          return deltaTop < (0.35 * vpHeight) &&
+              deltaBottom > (0.35 * vpHeight);
+        };
     print("build happening");
     var provider = Provider.of<VideoProvider>(context);
     return Scaffold(
-      body: CustomScrollView(
+      body: InViewNotifierCustomScrollView(
+        initialInViewIds: ['1'],
+        isInViewPortCondition: condition,
+        controller: scrollController,
         slivers: [
           CustomSliverAppBar(),
           SliverPadding(

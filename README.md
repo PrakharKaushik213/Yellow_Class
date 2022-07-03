@@ -3,7 +3,9 @@
 
 State management by Provider package
 
-## PLugin  used
+Apk size -6.7 MB
+
+## PLugins  used
 
   - [x]   provider: ^6.0.3
   - [x]   video_player: ^2.4.0

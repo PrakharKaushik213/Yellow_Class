@@ -20,9 +20,11 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-  bool isPlaying = true;
   bool isTapped = false;
   VideoPlayerController? _controller;
+  ValueNotifier<bool> isPlaying = ValueNotifier(false);
+  ValueNotifier<bool> isVolume = ValueNotifier(false);
+
   playVideoScreen(String url) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Videoplayer(url: url)));
@@ -73,6 +75,12 @@ class _VideoCardState extends State<VideoCard> {
     }
   }
 
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
+
   bool isInit = true;
   @override
   // void initState() {
@@ -94,10 +102,14 @@ class _VideoCardState extends State<VideoCard> {
         print("id is : ${widget.video.id.toString()} it is $isInView");
         if (isInView) {
           isTapped = true;
+          isPlaying.value = true;
+          isVolume.value = true;
           _controller!.play();
         } else {
           print("id is in the else part of ${widget.video.id}");
           isTapped = false;
+          isPlaying.value = false;
+          isVolume.value = false;
           _controller!.pause();
         }
         return Card(
@@ -139,13 +151,34 @@ class _VideoCardState extends State<VideoCard> {
                             ),
                     ),
                     Positioned(
+                      top: 5.0,
+                      right: widget.hasPadding ? 20.0 : 8.0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: ValueListenableBuilder<bool>(
+                            valueListenable: isVolume,
+                            builder: (context, val, child) {
+                              return IconButton(
+                                  onPressed: () {
+                                    isVolume.value = !isVolume.value;
+                                    isVolume.value
+                                        ? _controller!.setVolume(1)
+                                        : _controller!.setVolume(0);
+                                  },
+                                  icon: isVolume.value
+                                      ? const Icon(Icons.volume_up)
+                                      : const Icon(Icons.volume_off));
+                            }),
+                      ),
+                    ),
+                    Positioned(
                       bottom: 8.0,
                       right: widget.hasPadding ? 20.0 : 8.0,
                       child: Container(
                         padding: const EdgeInsets.all(4.0),
                         color: Colors.black,
                         child: Text(
-                          widget.video.id,
+                          " ${_controller!.value.duration.inMinutes.toString()} minutes",
                           style: Theme.of(context)
                               .textTheme
                               .caption!
@@ -199,11 +232,20 @@ class _VideoCardState extends State<VideoCard> {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                          onTap: () {},
-                          child: isTapped
-                              ? const Icon(Icons.pause, size: 20.0)
-                              : Icon(Icons.play_arrow, size: 20.0)),
+                      ValueListenableBuilder<bool>(
+                          valueListenable: isPlaying,
+                          builder: (context, val, child) {
+                            return GestureDetector(
+                                onTap: () {
+                                  isPlaying.value = !isPlaying.value;
+                                  isPlaying.value
+                                      ? _controller!.play()
+                                      : _controller!.pause();
+                                },
+                                child: val
+                                    ? const Icon(Icons.pause, size: 20.0)
+                                    : Icon(Icons.play_arrow, size: 20.0));
+                          }),
                     ],
                   ),
                 )

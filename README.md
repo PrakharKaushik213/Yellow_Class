@@ -22,6 +22,9 @@
 
 ## Photo
 
+![WhatsApp Image 2022-07-06 at 10 33 18 PM](https://user-images.githubusercontent.com/66511959/177605097-8ae0c7bd-9c1b-4479-a9a8-85f7133c1028.jpeg)
+
+## Previous Photo
 
  ![yc_demo_photo](https://user-images.githubusercontent.com/66511959/177047704-21012398-dbb1-4572-8743-8c84c90ec3a6.jpeg)
 
